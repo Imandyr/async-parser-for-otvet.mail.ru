@@ -235,7 +235,7 @@ async def async_tasks_execution(urls_list: list, numbers_list: list, max_sleep_v
 # max_sleep_value: max sleep value in random sleep after page parse ; proxy: proxy ; rotate_user_agent: swap user agent avery step ;
 # rewrite_jsonl: rewrite json file, if rewrite_jsonl == True ;
 def parse_data_on_parts(step: int, start: int, end: int, max_sleep_value: float, jsonl_file_name: str, proxy=None,
-                        rotate_user_agent=False, rewrite_jsonl=True):
+                        rewrite_jsonl=True):
     # params
     start_time = time.time() # time of parse
     start_of_step = start # number of start page
@@ -260,17 +260,11 @@ def parse_data_on_parts(step: int, start: int, end: int, max_sleep_value: float,
                 page_list.append(page_url)
                 numbers_list.append(number)
 
-            # create params for parse
             # headers
-            if rotate_user_agent:
-                user_agent = UserAgent()
-                HEADERS = {'user-agent': f'{user_agent.chrome}',
-                           'accept': '*/*',
-                           'referer': 'https://www.google.com/'}
-            else:
-                HEADERS = {'user-agent': "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0",
-                           'accept': '*/*',
-                           'referer': 'https://www.google.com/'}
+            user_agent = UserAgent()
+            HEADERS = {'user-agent': f'{user_agent.chrome}',
+                       'accept': '*/*',
+                       'referer': 'https://www.google.com/'}
 
             # start parsing
             # parse
@@ -295,12 +289,8 @@ def parse_data_on_parts(step: int, start: int, end: int, max_sleep_value: float,
     return end_time - start_time
 
 
-# params
-# proxy = "http://xwTUe3:DZWtQe@195.158.194.23:8000"
-
 # test
 global_time = parse_data_on_parts(step=100, start=229000000, end=229001000, max_sleep_value=0.3,
-                                  jsonl_file_name="all_mail_parse_part_3", proxy=None, rotate_user_agent=True,
+                                  jsonl_file_name="all_mail_parse_part_3", proxy=None,
                                   rewrite_jsonl=True)
-# 770 sec for 5000 urls
 print(global_time)
